@@ -4,18 +4,26 @@
 int main()
 {
 	juego partida;
-	int estaus=0;
-	sf::RenderWindow window(sf::VideoMode(640, 480, 32), "SFML window");
+	int estaus=0,timer=0;
+	sf::RenderWindow window(sf::VideoMode(1024, 480, 32), "Tamagotchi");
 	window.setVerticalSyncEnabled(true);
-	sf::Texture textura;
-	if (!textura.loadFromFile("feliz.jpg"))
+	sf::Font font;
+	if (!font.loadFromFile("sansation.ttf"))
 	{
 		return EXIT_FAILURE;
 	}
+	sf::Text texto;
+	texto.setString("A=ALIMENTAR,S=GOLPEAR,W=DORMIR,D=BANIAR");
+	texto.setFont(font);
+	texto.setPosition(0, 400);
+	texto.setCharacterSize(40);
+	texto.setFillColor(sf::Color(0, 200, 0));
+	texto.setStyle(sf::Text::Bold | sf::Text::Underlined);
+	sf::Texture textura;
 	sf::Sprite sprite;
 	sprite.setTexture(textura);
-	sprite.setTextureRect(sf::IntRect(0, 0, 300, 300));
-	sprite.setPosition(325, 225);
+	sprite.setTextureRect(sf::IntRect(0, 0, 300, 330));
+	sprite.setPosition(512, 225);
 	sf::Vector2f centro;
 	centro.x = sprite.getTextureRect().width / 2.f;
 	centro.y = sprite.getTextureRect().height / 2.f;
@@ -25,6 +33,7 @@ int main()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
+			timer = 0;
 			if (event.type == sf::Event::Closed)
 				window.close();
 			switch (event.type)
@@ -48,12 +57,16 @@ int main()
 				if (event.key.code == sf::Keyboard::S) {
 					estaus = partida.setEstado(3);
 					std::cout << "estado:" << estaus << std::endl;
-
 				}
 				break;
 			default:
 				break;
 			}
+		}
+		timer = timer + 1;
+		if (timer == 1000) {
+			estaus=estaus + 1;
+			timer = 0;
 		}
 		if (estaus == 0) {
 			if (!textura.loadFromFile("feliz.jpg"))
@@ -80,6 +93,7 @@ int main()
 			}
 		}
 		window.clear(sf::Color(180, 200, 255));
+		window.draw(texto);
 		window.draw(sprite);
 		window.display();
 	}
