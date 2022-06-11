@@ -1,88 +1,86 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-
+#include "juego.h"
 int main()
 {
-	// Crea una ventana de 640x480x32 con el título SFML window
+	juego partida;
+	int estaus=0;
 	sf::RenderWindow window(sf::VideoMode(640, 480, 32), "SFML window");
-
-	// Activa la sincronización vertical (60 fps)
 	window.setVerticalSyncEnabled(true);
-
-	// Creamos una textura
 	sf::Texture textura;
-
-	// Cargamos la textura desde un archivo
 	if (!textura.loadFromFile("feliz.jpg"))
 	{
-		// Si hay un error salimos
 		return EXIT_FAILURE;
 	}
-
-	// Creamos un sprite
 	sf::Sprite sprite;
-	// Asignamos la textura al sprite
 	sprite.setTexture(textura);
-	// Seleccionamos solo un rectangulo de la textura
 	sprite.setTextureRect(sf::IntRect(0, 0, 300, 300));
-	// Movemos el sprite
 	sprite.setPosition(325, 225);
-	// Cambiamos el origen al centro del sprite
 	sf::Vector2f centro;
 	centro.x = sprite.getTextureRect().width / 2.f;
 	centro.y = sprite.getTextureRect().height / 2.f;
 	sprite.setOrigin(centro);
-
-
-
-	// Game Loop mientras la ventana esté abierta
 	while (window.isOpen())
 	{
-		// Creamos un objeto evento
 		sf::Event event;
-		// Procesamos la pila de eventos
 		while (window.pollEvent(event))
 		{
-			// Si el evento es de tipo Closed cerramos la ventana
 			if (event.type == sf::Event::Closed)
 				window.close();
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-				if (!textura.loadFromFile("feliz.jpg"))
-				{
-					// Si hay un error salimos
-					return EXIT_FAILURE;
+			switch (event.type)
+			{
+			case sf::Event::EventType::KeyReleased:
+				if (event.key.code == sf::Keyboard::A) {
+					estaus = partida.setEstado(0);
+					std::cout << "estado:" << estaus << std::endl;
+
 				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-				if (!textura.loadFromFile("regular.jpg"))
-				{
-					// Si hay un error salimos
-					return EXIT_FAILURE;
+				if (event.key.code == sf::Keyboard::D) {
+					estaus = partida.setEstado(1);
+					std::cout << "estado:" << estaus << std::endl;
+
 				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				if (!textura.loadFromFile("muerte.jpg"))
-				{
-					// Si hay un error salimos
-					return EXIT_FAILURE;
+				if (event.key.code == sf::Keyboard::W) {
+					estaus = partida.setEstado(2);
+					std::cout << "estado:" << estaus << std::endl;
+
 				}
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				if (!textura.loadFromFile("triste.jpg"))
-				{
-					// Si hay un error salimos
-					return EXIT_FAILURE;
+				if (event.key.code == sf::Keyboard::S) {
+					estaus = partida.setEstado(3);
+					std::cout << "estado:" << estaus << std::endl;
+
 				}
+				break;
+			default:
+				break;
 			}
 		}
-
-		// Limpiamos la pantalla
+		if (estaus == 0) {
+			if (!textura.loadFromFile("feliz.jpg"))
+			{
+				return EXIT_FAILURE;
+			}
+		}
+		else if (estaus == 1) {
+			if (!textura.loadFromFile("regular.jpg"))
+			{
+				return EXIT_FAILURE;
+			}
+		}
+		else if (estaus == 2) {
+			if (!textura.loadFromFile("triste.jpg"))
+			{
+				return EXIT_FAILURE;
+			}
+		}
+		else if (estaus == 3) {
+			if (!textura.loadFromFile("muerte.jpg"))
+			{
+				return EXIT_FAILURE;
+			}
+		}
 		window.clear(sf::Color(180, 200, 255));
-
-		// Dibujamos en pantalla
 		window.draw(sprite);
-
-		// Actualizamos la ventana
 		window.display();
 	}
 

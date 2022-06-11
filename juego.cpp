@@ -1,7 +1,8 @@
 #include "juego.h"
+#include <iostream>
 juego::juego()
 {
-	estadoActual = 1;
+	estadoActual = 0;
 	estadoInicial[0][0] = 0;
 	estadoInicial[0][1] = 0;
 	estadoInicial[0][2] = 1;
@@ -18,14 +19,14 @@ juego::juego()
 	estadoInicial[3][1] = 2;
 	estadoInicial[3][2] = 3;
 	estadoInicial[3][3] = 3;
-
-	estado = 1;
+	estado = 0;
 }
 
 int juego::setEstado(int valor)
 {
-	estado = estadoInicial[valor][estadoActual];
 	estadoActual = estado;
+	estado = estadoInicial[valor][estadoActual];
+	std::cout << estado;
 	return estado;
 }
 
