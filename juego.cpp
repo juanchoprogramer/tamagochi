@@ -1,29 +1,31 @@
 #include "juego.h"
-juego::juego(int ancho, int alto)
+juego::juego()
 {
-	fps = 1;
-	ventana1 = new RenderWindow(VideoMode(ancho, alto), "tamagotchi");
-	ventana1->setFramerateLimit(fps);
-	textura1 = new Texture;
-	sprite1 = new Sprite;
+	estadoActual = 1;
+	estadoInicial[0][0] = 0;
+	estadoInicial[0][1] = 0;
+	estadoInicial[0][2] = 1;
+	estadoInicial[0][3] = 3;
+	estadoInicial[1][0] = 0;
+	estadoInicial[1][1] = 0;
+	estadoInicial[1][2] = 1;
+	estadoInicial[1][3] = 3;
+	estadoInicial[2][0] = 0;
+	estadoInicial[2][1] = 0;
+	estadoInicial[2][2] = 1;
+	estadoInicial[2][3] = 3; 
+	estadoInicial[3][0] = 1;
+	estadoInicial[3][1] = 2;
+	estadoInicial[3][2] = 3;
+	estadoInicial[3][3] = 3;
 
-	gameLoop();
+	estado = 1;
 }
 
-void juego::gameLoop()
+int juego::setEstado(int valor)
 {
-	while (ventana1->isOpen())
-	{
-		dibujar();
-	}
+	estado = estadoInicial[valor][estadoActual];
+	estadoActual = estado;
+	return estado;
 }
 
-void juego::dibujar()
-{
-
-	ventana1->clear();
-	textura1->loadFromFile("feliz.jpg");
-	sprite1->setTexture(*textura1);
-	ventana1->draw(*sprite1);
-	ventana1->display();
-}

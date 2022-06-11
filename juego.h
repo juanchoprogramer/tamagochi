@@ -6,13 +6,9 @@ using namespace sf;
 class juego
 {
 public:
-	juego(int ancho, int alto);
-	void gameLoop();
-	void dibujar();
+	juego();
+	int setEstado(int valor);
 
 private:
-	RenderWindow* ventana1;
-	int fps;
-	Texture* textura1;
-	Sprite* sprite1;
+	int estadoActual, estadoInicial[4][4],estado;
 };
